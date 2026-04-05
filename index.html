@@ -2,724 +2,266 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For Kripa ❤️</title>
+
   <style>
-    :root {
-      --bg-dark: #09060c;
-      --text: #ffffff;
-      --muted: rgba(255, 255, 255, 0.82);
-
-      --glass-bg: rgba(255, 255, 255, 0.11);
-      --glass-border: rgba(255, 255, 255, 0.2);
-      --glass-highlight: rgba(255, 255, 255, 0.16);
-
-      --pink-1: #ff5f9e;
-      --pink-2: #ff84b4;
-      --pink-3: #ffd5e5;
-      --gold: #f6d38d;
-
-      --shadow-main: 0 24px 70px rgba(0, 0, 0, 0.38);
-      --shadow-soft: 0 14px 32px rgba(0, 0, 0, 0.22);
-
-      --tile-radius: 24px;
-      --gap: 16px;
-      --safe: 12px;
-    }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html,
     body {
       margin: 0;
-      width: 100%;
-      height: 100%;
       overflow: hidden;
-      background: var(--bg-dark);
-      color: var(--text);
-      font-family: "Georgia", "Times New Roman", serif;
+      font-family: Georgia, serif;
+      color: white;
+      background: #0a0710;
     }
 
-    body {
-      position: relative;
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    /* =========================
-       BACKGROUND WALL
-    ========================== */
+    /* ================= BACKGROUND ================= */
     .wall {
       position: fixed;
       inset: 0;
-      z-index: 0;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: var(--gap);
-      padding: var(--gap);
-      overflow: hidden;
+      gap: 16px;
+      padding: 16px;
+      z-index: 0;
     }
 
-    .wall-col {
-      position: relative;
+    .col {
       overflow: hidden;
-      border-radius: 28px;
+      border-radius: 20px;
     }
 
     .track {
-      position: absolute;
-      inset: 0;
       display: flex;
       flex-direction: column;
-      gap: var(--gap);
-      will-change: transform;
+      gap: 16px;
+      animation: scroll 40s linear infinite;
+    }
+
+    .col:nth-child(2) .track {
+      animation-direction: reverse;
+      animation-duration: 50s;
+    }
+
+    .col:nth-child(3) .track {
+      animation-duration: 45s;
     }
 
     .track img {
       width: 100%;
-      height: calc(100vh - (var(--gap) * 2));
+      height: calc(100vh - 32px);
       object-fit: cover;
-      border-radius: var(--tile-radius);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
-      filter: saturate(1.03) contrast(1.02) brightness(0.96);
-      pointer-events: none;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      filter: saturate(1.1) contrast(1.05) brightness(1);
     }
 
-    .up-a {
-      animation: scrollUpA 46s linear infinite;
-    }
-
-    .down-b {
-      animation: scrollDownB 52s linear infinite;
-    }
-
-    .up-c {
-      animation: scrollUpC 49s linear infinite;
-    }
-
-    @keyframes scrollUpA {
+    @keyframes scroll {
       from { transform: translateY(0); }
-      to { transform: translateY(calc(-100vh - var(--gap))); }
+      to { transform: translateY(-100%); }
     }
 
-    @keyframes scrollDownB {
-      from { transform: translateY(calc(-100vh - var(--gap))); }
-      to { transform: translateY(0); }
-    }
-
-    @keyframes scrollUpC {
-      from { transform: translateY(0); }
-      to { transform: translateY(calc(-100vh - var(--gap))); }
-    }
-
+    /* DARK OVERLAY (NO BLUR NOW) */
     .overlay {
       position: fixed;
       inset: 0;
+      background: rgba(0,0,0,0.35);
       z-index: 1;
-      background:
-        radial-gradient(circle at top, rgba(255, 170, 200, 0.08), transparent 35%),
-        linear-gradient(to bottom, rgba(10, 7, 12, 0.35), rgba(10, 7, 12, 0.65)),
-        rgba(8, 5, 10, 0.34);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      pointer-events: none;
     }
 
-    /* =========================
-       CENTER CARD
-    ========================== */
+    /* ================= CARD ================= */
     .center {
       position: fixed;
       inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       z-index: 5;
-      display: grid;
-      place-items: center;
-      padding: 24px;
     }
 
     .card {
-      position: relative;
-      width: min(92vw, 760px);
-      min-height: 350px;
-      padding: 42px 30px 38px;
-      border-radius: 32px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow-main);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      overflow: visible;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.16),
-          rgba(255, 255, 255, 0.03) 34%,
-          rgba(255, 255, 255, 0.01)
-        );
-      pointer-events: none;
-    }
-
-    .card::after {
-      content: "";
-      position: absolute;
-      inset: 1px;
-      border-radius: inherit;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      pointer-events: none;
-    }
-
-    .inner {
-      position: relative;
-      z-index: 2;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 25px;
+      padding: 40px;
       text-align: center;
-    }
+      width: 90%;
+      max-width: 600px;
 
-    .eyebrow {
-      font-size: 0.92rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255, 231, 240, 0.82);
-      margin-bottom: 16px;
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.15);
     }
 
     h1 {
       margin: 0;
-      font-weight: 700;
-      font-size: clamp(2.1rem, 4.4vw, 4rem);
-      line-height: 1.12;
-      letter-spacing: 0.01em;
-      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+      font-size: 2.5rem;
     }
 
-    .accent {
-      background: linear-gradient(135deg, #ffffff, #ffdbe8, #f5c97a);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    p {
+      margin-top: 15px;
+      opacity: 0.9;
     }
 
-    .desc {
-      width: min(100%, 580px);
-      margin: 18px auto 0;
-      color: var(--muted);
-      font-size: clamp(1rem, 2vw, 1.12rem);
-      line-height: 1.7;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    /* =========================
-       BUTTONS
-    ========================== */
-    .button-zone {
-      position: relative;
-      width: 100%;
-      height: 120px;
-      margin-top: 34px;
-    }
-
+    /* ================= BUTTONS ================= */
     .btn {
-      border: 0;
-      outline: none;
-      padding: 15px 30px;
+      padding: 12px 25px;
+      border: none;
       border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: white;
-      box-shadow: var(--shadow-soft);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
-      white-space: nowrap;
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .yes-btn {
-      position: absolute;
-      left: 50%;
-      top: 20px;
-      transform: translateX(-72px);
-      min-width: 124px;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.05)),
-        linear-gradient(135deg, var(--pink-1), var(--pink-2));
+      font-weight: bold;
       cursor: pointer;
-    }
-
-    .yes-btn:hover {
-      filter: brightness(1.05);
-      box-shadow: 0 18px 36px rgba(255, 95, 158, 0.35);
-    }
-
-    .no-btn {
-      position: fixed;
-      left: 0;
-      top: 0;
-      min-width: 112px;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)),
-        linear-gradient(135deg, #737b87, #98a0aa);
-      z-index: 20;
-      pointer-events: none; /* impossible to click */
-      opacity: 0.96;
-    }
-
-    /* =========================
-       LOVE STATE
-    ========================== */
-    .hidden {
-      display: none !important;
-    }
-
-    .love-state {
-      display: none;
-      animation: riseIn 0.7s ease both;
-    }
-
-    .love-state.show {
-      display: block;
-    }
-
-    .love-line {
-      margin-top: 18px;
-      font-family: Arial, Helvetica, sans-serif;
+      margin: 20px;
       font-size: 1rem;
-      color: rgba(255, 255, 255, 0.85);
     }
 
-    @keyframes riseIn {
-      from {
-        opacity: 0;
-        transform: translateY(16px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    .yes {
+      background: linear-gradient(45deg,#ff4d8d,#ff7aa8);
+      color: white;
     }
 
-    /* =========================
-       HEARTS + CONFETTI
-    ========================== */
-    .effects {
+    .no {
       position: fixed;
-      inset: 0;
-      z-index: 12;
-      overflow: hidden;
       pointer-events: none;
+      background: gray;
+      color: white;
     }
 
+    /* ================= LOVE ================= */
+    .love {
+      display: none;
+      font-size: 2rem;
+    }
+
+    /* ================= HEARTS ================= */
     .heart {
-      position: absolute;
-      bottom: -40px;
-      opacity: 0.95;
-      animation: floatHeart linear forwards;
-      filter: drop-shadow(0 8px 12px rgba(255, 60, 130, 0.18));
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: float 6s linear forwards;
     }
 
-    @keyframes floatHeart {
-      0% {
-        transform: translateY(0) translateX(0) scale(0.8) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.95;
-      }
-      100% {
-        transform: translateY(-115vh) translateX(var(--drift)) scale(1.25) rotate(18deg);
+    @keyframes float {
+      to {
+        transform: translateY(-110vh);
         opacity: 0;
       }
     }
 
-    .confetti {
-      position: absolute;
-      top: -24px;
-      width: 10px;
-      height: 18px;
-      border-radius: 3px;
-      opacity: 0.95;
-      animation: fall linear forwards;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh) rotate(720deg);
-        opacity: 0;
-      }
-    }
-
-    /* =========================
-       SMALL DEVICES
-    ========================== */
-    @media (max-width: 900px) {
-      :root {
-        --gap: 12px;
-        --tile-radius: 18px;
-      }
-
-      .card {
-        padding: 34px 20px 30px;
-        min-height: 320px;
-        border-radius: 26px;
-      }
-
-      .button-zone {
-        height: 96px;
-      }
-
-      .yes-btn {
-        top: 14px;
-        transform: translateX(-64px);
-      }
-
-      .track img {
-        height: calc(100vh - (var(--gap) * 2));
-      }
-    }
-
-    @media (max-width: 640px) {
-      .eyebrow {
-        font-size: 0.8rem;
-        letter-spacing: 0.18em;
-      }
-
-      .desc {
-        font-size: 0.96rem;
-      }
-
-      .btn {
-        padding: 14px 24px;
-        font-size: 0.96rem;
-      }
-
-      .yes-btn {
-        min-width: 112px;
-        transform: translateX(-58px);
-      }
-
-      .no-btn {
-        min-width: 100px;
-      }
-    }
   </style>
 </head>
+
 <body>
-  <!-- Background -->
-  <div class="wall" aria-hidden="true">
-    <div class="wall-col">
-      <div class="track up-a">
-        <img src="Kripa1/image1.jpeg" alt="Kripa portrait 1" />
-        <img src="Kripa1/image2.jpeg" alt="Kripa portrait 2" />
-        <img src="Kripa1/image3.jpeg" alt="Kripa portrait 3" />
-        <img src="Kripa1/image1.jpeg" alt="Kripa portrait 1 repeat" />
-        <img src="Kripa1/image2.jpeg" alt="Kripa portrait 2 repeat" />
-        <img src="Kripa1/image3.jpeg" alt="Kripa portrait 3 repeat" />
-      </div>
+
+<!-- BACKGROUND -->
+<div class="wall">
+  <div class="col"><div class="track">
+    <img src="Kripa1/image1.jpeg">
+    <img src="Kripa1/image2.jpeg">
+    <img src="Kripa1/image3.jpeg">
+    <img src="Kripa1/image1.jpeg">
+    <img src="Kripa1/image2.jpeg">
+    <img src="Kripa1/image3.jpeg">
+  </div></div>
+
+  <div class="col"><div class="track">
+    <img src="Kripa1/image4.jpeg">
+    <img src="Kripa1/image5.jpeg">
+    <img src="Kripa1/image6.jpeg">
+    <img src="Kripa1/image4.jpeg">
+    <img src="Kripa1/image5.jpeg">
+    <img src="Kripa1/image6.jpeg">
+  </div></div>
+
+  <div class="col"><div class="track">
+    <img src="Kripa1/image7.jpeg">
+    <img src="Kripa1/image8.jpeg">
+    <img src="Kripa1/image9.jpeg">
+    <img src="Kripa1/image7.jpeg">
+    <img src="Kripa1/image8.jpeg">
+    <img src="Kripa1/image9.jpeg">
+  </div></div>
+</div>
+
+<div class="overlay"></div>
+
+<!-- CARD -->
+<div class="center">
+  <div class="card">
+
+    <div id="main">
+      <h1>Kripa, will you be my girlfriend?</h1>
+      <p>You already know the right answer ❤️</p>
+
+      <button class="btn yes" onclick="yesClick()">Yes</button>
     </div>
 
-    <div class="wall-col">
-      <div class="track down-b">
-        <img src="Kripa1/image4.jpeg" alt="Kripa portrait 4" />
-        <img src="Kripa1/image5.jpeg" alt="Kripa portrait 5" />
-        <img src="Kripa1/image6.jpeg" alt="Kripa portrait 6" />
-        <img src="Kripa1/image4.jpeg" alt="Kripa portrait 4 repeat" />
-        <img src="Kripa1/image5.jpeg" alt="Kripa portrait 5 repeat" />
-        <img src="Kripa1/image6.jpeg" alt="Kripa portrait 6 repeat" />
-      </div>
+    <div id="love" class="love">
+      I love you so much, Kripa ❤️
     </div>
 
-    <div class="wall-col">
-      <div class="track up-c">
-        <img src="Kripa1/image7.jpeg" alt="Kripa portrait 7" />
-        <img src="Kripa1/image8.jpeg" alt="Kripa portrait 8" />
-        <img src="Kripa1/image9.jpeg" alt="Kripa portrait 9" />
-        <img src="Kripa1/image7.jpeg" alt="Kripa portrait 7 repeat" />
-        <img src="Kripa1/image8.jpeg" alt="Kripa portrait 8 repeat" />
-        <img src="Kripa1/image9.jpeg" alt="Kripa portrait 9 repeat" />
-      </div>
-    </div>
   </div>
+</div>
 
-  <div class="overlay"></div>
+<button id="noBtn" class="btn no">No</button>
 
-  <!-- Effects -->
-  <div class="effects" id="effects"></div>
+<audio id="music" src="music.mp3"></audio>
 
-  <!-- Content -->
-  <main class="center">
-    <section class="card" id="card">
-      <div class="inner">
-        <div class="eyebrow" id="eyebrow">A little question for You</div>
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.querySelector(".yes");
 
-        <div id="proposalState">
-          <h1 id="question">
-            Kripa, will you be my <span class="accent">girlfriend</span>?
-          </h1>
-          <p class="desc" id="desc">
-            Out of all the beautiful moments, I would still choose you, Kripa, every
-            single time. There is only one button here that truly makes sense.
-          </p>
+  function moveNo() {
+    const yesRect = yesBtn.getBoundingClientRect();
+    const w = window.innerWidth - 120;
+    const h = window.innerHeight - 50;
 
-          <div class="button-zone" id="buttonZone">
-            <button class="btn yes-btn" id="yesBtn" type="button">Yes</button>
-          </div>
-        </div>
+    let x, y;
 
-        <div class="love-state" id="loveState">
-          <h1>I love you so much, <span class="accent">Kripa</span> ❤️</h1>
-          <p class="desc">
-            You are my favorite feeling, my sweetest thought, and the most beautiful
-            part of my world.
-          </p>
-          <p class="love-line">Can't wait to see you and spend together forever ✨</p>
-        </div>
-      </div>
-    </section>
-  </main>
+    do {
+      x = Math.random() * w;
+      y = Math.random() * h;
+    } while (
+      x > yesRect.left - 100 &&
+      x < yesRect.right + 100 &&
+      y > yesRect.top - 100 &&
+      y < yesRect.bottom + 100
+    );
 
-  <!-- Escaping No -->
-  <button class="btn no-btn" id="noBtn" type="button" aria-hidden="true">No</button>
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
 
-  <!-- Audio -->
-  <audio id="bgMusic" preload="auto" loop>
-    <source src="music.mp3" type="audio/mpeg" />
-  </audio>
-
-  <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const question = document.getElementById("question");
-    const desc = document.getElementById("desc");
-    const eyebrow = document.getElementById("eyebrow");
-    const buttonZone = document.getElementById("buttonZone");
-    const proposalState = document.getElementById("proposalState");
-    const loveState = document.getElementById("loveState");
-    const bgMusic = document.getElementById("bgMusic");
-    const effects = document.getElementById("effects");
-
-    let noPlaced = false;
-    let heartLoop = null;
-    let celebrationDone = false;
-
-    function clamp(value, min, max) {
-      return Math.max(min, Math.min(max, value));
+  document.addEventListener("mousemove", e => {
+    const rect = noBtn.getBoundingClientRect();
+    if (
+      e.clientX > rect.left - 80 &&
+      e.clientX < rect.right + 80 &&
+      e.clientY > rect.top - 80 &&
+      e.clientY < rect.bottom + 80
+    ) {
+      moveNo();
     }
+  });
 
-    function overlaps(a, b, padding = 20) {
-      return !(
-        a.right + padding < b.left ||
-        a.left - padding > b.right ||
-        a.bottom + padding < b.top ||
-        a.top - padding > b.bottom
-      );
-    }
+  function yesClick() {
+    document.getElementById("main").style.display = "none";
+    document.getElementById("love").style.display = "block";
+    document.getElementById("music").play();
 
-    function getNoSize() {
-      const rect = noBtn.getBoundingClientRect();
-      return {
-        width: rect.width || 110,
-        height: rect.height || 52
-      };
-    }
-
-    function placeNoNearYes() {
-      const yesRect = yesBtn.getBoundingClientRect();
-      const noSize = getNoSize();
-
-      let left = yesRect.right + 18;
-      let top = yesRect.top;
-
-      if (left + noSize.width > window.innerWidth - 12) {
-        left = yesRect.left - noSize.width - 18;
-      }
-
-      left = clamp(left, 12, window.innerWidth - noSize.width - 12);
-      top = clamp(top, 12, window.innerHeight - noSize.height - 12);
-
-      noBtn.style.left = left + "px";
-      noBtn.style.top = top + "px";
-      noPlaced = true;
-    }
-
-    function moveNoRandom() {
-      const yesRect = yesBtn.getBoundingClientRect();
-      const noSize = getNoSize();
-
-      const minLeft = 12;
-      const minTop = 12;
-      const maxLeft = window.innerWidth - noSize.width - 12;
-      const maxTop = window.innerHeight - noSize.height - 12;
-
-      let chosen = null;
-      let tries = 0;
-
-      while (tries < 400) {
-        const left = Math.random() * (maxLeft - minLeft) + minLeft;
-        const top = Math.random() * (maxTop - minTop) + minTop;
-
-        const candidate = {
-          left,
-          top,
-          right: left + noSize.width,
-          bottom: top + noSize.height
-        };
-
-        if (!overlaps(candidate, yesRect, 30)) {
-          chosen = { left, top };
-          break;
-        }
-
-        tries++;
-      }
-
-      if (!chosen) {
-        chosen = {
-          left: clamp(20, minLeft, maxLeft),
-          top: clamp(20, minTop, maxTop)
-        };
-      }
-
-      noBtn.style.left = chosen.left + "px";
-      noBtn.style.top = chosen.top + "px";
-    }
-
-    function escapeNo(pointerX, pointerY) {
-      if (!noPlaced) placeNoNearYes();
-
-      const rect = noBtn.getBoundingClientRect();
-      const safeRange = Math.max(95, rect.width);
-
-      const isNear =
-        pointerX > rect.left - safeRange &&
-        pointerX < rect.right + safeRange &&
-        pointerY > rect.top - safeRange &&
-        pointerY < rect.bottom + safeRange;
-
-      if (isNear) {
-        moveNoRandom();
-      }
-    }
-
-    document.addEventListener("mousemove", (e) => {
-      escapeNo(e.clientX, e.clientY);
-    });
-
-    document.addEventListener("touchstart", (e) => {
-      const touch = e.touches[0];
-      if (touch) escapeNo(touch.clientX, touch.clientY);
-    }, { passive: true });
-
-    document.addEventListener("touchmove", (e) => {
-      const touch = e.touches[0];
-      if (touch) escapeNo(touch.clientX, touch.clientY);
-    }, { passive: true });
-
-    window.addEventListener("resize", () => {
-      if (!loveState.classList.contains("show")) {
-        placeNoNearYes();
-        moveNoRandom();
-      }
-    });
-
-    function makeHeart() {
+    setInterval(() => {
       const heart = document.createElement("div");
       heart.className = "heart";
-      heart.textContent = Math.random() > 0.2 ? "❤️" : "💖";
+      heart.innerText = "❤️";
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = (14 + Math.random() * 24) + "px";
-      heart.style.animationDuration = (4.2 + Math.random() * 4) + "s";
-      heart.style.setProperty("--drift", (-60 + Math.random() * 120) + "px");
-      effects.appendChild(heart);
+      document.body.appendChild(heart);
 
-      setTimeout(() => heart.remove(), 9000);
-    }
+      setTimeout(() => heart.remove(), 6000);
+    }, 200);
+  }
 
-    function burstConfetti(amount = 60) {
-      const colors = ["#ff5f9e", "#ff84b4", "#ffd5e5", "#ffffff", "#f6d38d"];
+  moveNo();
+</script>
 
-      for (let i = 0; i < amount; i++) {
-        const piece = document.createElement("div");
-        piece.className = "confetti";
-        piece.style.left = Math.random() * 100 + "vw";
-        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.animationDuration = (2.6 + Math.random() * 2.6) + "s";
-        piece.style.animationDelay = (Math.random() * 0.25) + "s";
-        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-        effects.appendChild(piece);
-
-        setTimeout(() => piece.remove(), 6500);
-      }
-    }
-
-    function startCelebration() {
-      if (celebrationDone) return;
-      celebrationDone = true;
-
-      burstConfetti(70);
-
-      for (let i = 0; i < 12; i++) {
-        setTimeout(makeHeart, i * 120);
-      }
-
-      heartLoop = setInterval(makeHeart, 240);
-
-      setTimeout(() => {
-        clearInterval(heartLoop);
-      }, 9000);
-    }
-
-    yesBtn.addEventListener("click", async () => {
-      proposalState.classList.add("hidden");
-      noBtn.classList.add("hidden");
-      eyebrow.textContent = "Forever starts here";
-      loveState.classList.add("show");
-
-      try {
-        bgMusic.volume = 0.55;
-        await bgMusic.play();
-      } catch (error) {
-        console.log("Audio could not autoplay:", error);
-      }
-
-      startCelebration();
-    });
-
-    noBtn.setAttribute("tabindex", "-1");
-
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        placeNoNearYes();
-      }, 120);
-    });
-  </script>
 </body>
 </html>
